@@ -6,8 +6,8 @@ const forward = async ({ reqBody, taskHint }) => {
       return { status: 500, body: { error: "Server config missing GEMINI_API_KEY" } };
     }
 
-    // Google Gemini API endpoint
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+    // Google Gemini API endpoint - using v1 API with gemini-pro model
+    const endpoint = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${apiKey}`;
     
     console.log("Using Gemini API with key:", apiKey ? "Present" : "Missing");
 
