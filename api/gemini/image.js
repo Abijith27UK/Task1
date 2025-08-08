@@ -4,12 +4,17 @@ import forward from "./_forward.js";
 export default async (req, res) => {
   try {
     const body = req.body || (await parseJson(req));
-    const instruction = `You are an image captioning assistant. Given an image provided as a base64 data URL in 'data', generate:
-1) A short caption.
-2) A detailed descriptive paragraph mentioning objects, setting, colors, likely actions, moods, and any notable details.
-3) A list of tags / keywords.
+    const instruction = `You are an image captioning assistant. Given an image provided as a base64 data URL in 'data', generate a detailed description.
 
-Return a JSON object: { caption: "...", description: "...", tags: ["..."] }`;
+Please provide your response in the following format:
+
+**Caption:** [A short, concise caption]
+
+**Description:** [A detailed descriptive paragraph mentioning objects, setting, colors, likely actions, moods, and any notable details]
+
+**Tags:** [A comma-separated list of relevant tags/keywords]
+
+Make sure to provide a natural, readable response without JSON formatting.`;
 
     const reply = await forward({ reqBody: body, taskHint: { instruction } });
     res.status(reply.status).json(reply.body);

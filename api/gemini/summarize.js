@@ -7,7 +7,21 @@ export default async (req, res) => {
     const instruction = `You are an assistant that summarizes content. Input may include:
 - 'url' pointing to a public webpage
 - OR a file (data URL) in 'data' (PDF / DOC as base64). If the file is a PDF/DOC, extract the text and summarize.
-Produce: a concise summary (approx 4-6 lines), and a list of 6 bullet key points. Return JSON: { summary: "...", key_points: ["..."] }`;
+
+Please provide your response in the following format:
+
+**Summary:**
+[A concise summary (4-6 lines) of the content]
+
+**Key Points:**
+• [First key point]
+• [Second key point]
+• [Third key point]
+• [Fourth key point]
+• [Fifth key point]
+• [Sixth key point]
+
+Make sure to provide a natural, readable response without JSON formatting.`;
 
     const reply = await forward({ reqBody: body, taskHint: { instruction } });
     res.status(reply.status).json(reply.body);

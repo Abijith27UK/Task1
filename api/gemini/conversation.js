@@ -7,11 +7,20 @@ export default async (req, res) => {
     // We expect: { fileName, mimeType, data }
     // Build an instruction for the provider to do STT, diarization (2 speakers) and summary
     const instruction = `You are a helpful assistant. 
-Given an audio file (base64 data URL) produce:
-1) A plain transcript of the audio.
-2) A diarized transcript labeling up to two speakers (Speaker 1 / Speaker 2) with text chunks.
-3) A concise summary (3-4 lines).
-Return a JSON object: { transcript: "...", diarization: "...", summary: "..." }`;
+Given an audio file (base64 data URL) produce a comprehensive analysis.
+
+Please provide your response in the following format:
+
+**Transcript:**
+[Plain transcript of the audio content]
+
+**Speaker Diarization:**
+[Transcript with speaker labels (Speaker 1 / Speaker 2) for up to two speakers]
+
+**Summary:**
+[A concise summary (3-4 lines) of the conversation]
+
+Make sure to provide a natural, readable response without JSON formatting.`;
 
     const reply = await forward({ reqBody: body, taskHint: { instruction } });
 

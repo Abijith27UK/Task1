@@ -71,12 +71,28 @@ const forward = async ({ reqBody, taskHint }) => {
     // Extract the generated text from Gemini response
     const generatedText = json.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated";
     
+    // Try to parse the response as JSON if it looks like JSON
+    let parsedResponse = {};
+    try {
+      // Check if the response is wrapped in JSON code blocks
+      const jsonMatch = generatedText.match(/```json\s*(\{.*?\})\s*```/s);
+      if (jsonMatch) {
+        parsedResponse = JSON.parse(jsonMatch[1]);
+      } else if (generatedText.trim().startsWith('{')) {
+        // Direct JSON response
+        parsedResponse = JSON.parse(generatedText);
+      } else {
+        // Plain text response
+        parsedResponse = { text: generatedText };
+      }
+    } catch (parseError) {
+      console.log("Could not parse as JSON, treating as plain text:", parseError);
+      parsedResponse = { text: generatedText };
+    }
+    
     return { 
       status: 200, 
-      body: { 
-        text: generatedText,
-        raw: json 
-      } 
+      body: parsedResponse
     };
   };
   
