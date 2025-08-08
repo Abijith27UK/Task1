@@ -28,6 +28,9 @@ export default function Header() {
         <Link to="/task" className="task-link">
           Task
         </Link>
+        <Link to="/history" className="task-link">
+          History
+        </Link>
         <button onClick={toggleTheme} className="theme-toggle">
           {theme === "dark-mode" ? "🌞" : "🌙"}
         </button>

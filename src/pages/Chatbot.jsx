@@ -47,6 +47,35 @@ export default function Chatbot() {
       reader.readAsDataURL(f);
     });
 
+  // Save interaction to history
+  const saveToHistory = (result, skill, file, urlInput) => {
+    try {
+      const historyItem = {
+        timestamp: new Date().toISOString(),
+        skill: skill,
+        result: result,
+        fileName: file?.name || null,
+        fileSize: file?.size || null,
+        url: urlInput || null
+      };
+
+      // Get existing history
+      const existingHistory = localStorage.getItem("aiPlaygroundHistory");
+      let history = existingHistory ? JSON.parse(existingHistory) : [];
+
+      // Add new item to the beginning
+      history.unshift(historyItem);
+
+      // Keep only the last 10 items
+      history = history.slice(0, 10);
+
+      // Save back to localStorage
+      localStorage.setItem("aiPlaygroundHistory", JSON.stringify(history));
+    } catch (error) {
+      console.error("Error saving to history:", error);
+    }
+  };
+
   const handleSubmit = async () => {
     setError("");
     setResult(null);
@@ -96,6 +125,9 @@ export default function Chatbot() {
 
       const data = await res.json();
       setResult(data);
+
+      // Save successful interaction to history
+      saveToHistory(data, skill, file, urlInput);
     } catch (err) {
       console.error(err);
       setError(err.message || "Unknown error");
@@ -215,8 +247,18 @@ export default function Chatbot() {
           {skill === "conversation" && (
             <>
               <section style={{ marginBottom: 12 }}>
-                <h4 style={{ color: "var(--text-color, #000)" }}>Conversation Analysis</h4>
+                <h4 style={{ color: "var(--text-color, #000)" }}>Transcript</h4>
                 <pre style={resultContainerStyle}>{result.transcript || result.text || "No transcript returned"}</pre>
+              </section>
+
+              <section style={{ marginBottom: 12 }}>
+                <h4 style={{ color: "var(--text-color, #000)" }}>Diarization</h4>
+                <pre style={resultContainerStyle}>{result.diarization || "No diarization returned"}</pre>
+              </section>
+
+              <section style={{ marginBottom: 12 }}>
+                <h4 style={{ color: "var(--text-color, #000)" }}>Summary</h4>
+                <div style={resultContainerStyle}>{result.summary || "No summary returned"}</div>
               </section>
             </>
           )}
