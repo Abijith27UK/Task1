@@ -215,18 +215,8 @@ export default function Chatbot() {
           {skill === "conversation" && (
             <>
               <section style={{ marginBottom: 12 }}>
-                <h4 style={{ color: "var(--text-color, #000)" }}>Transcript</h4>
+                <h4 style={{ color: "var(--text-color, #000)" }}>Conversation Analysis</h4>
                 <pre style={resultContainerStyle}>{result.transcript || result.text || "No transcript returned"}</pre>
-              </section>
-
-              <section style={{ marginBottom: 12 }}>
-                <h4 style={{ color: "var(--text-color, #000)" }}>Diarization</h4>
-                <pre style={resultContainerStyle}>{result.diarization || "No diarization returned"}</pre>
-              </section>
-
-              <section style={{ marginBottom: 12 }}>
-                <h4 style={{ color: "var(--text-color, #000)" }}>Summary</h4>
-                <div style={resultContainerStyle}>{result.summary || "No summary returned"}</div>
               </section>
             </>
           )}
