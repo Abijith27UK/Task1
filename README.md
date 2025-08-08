@@ -1,6 +1,6 @@
 # AI Playground - Multi-Modal AI Tasks
 
-A React application that provides a playground for exploring multi-modal AI capabilities including conversation analysis, image analysis, and document/URL summarization.
+A React application that provides a playground for exploring multi-modal AI capabilities including conversation analysis, image analysis, and document/URL summarization using Google's Gemini API.
 
 ## Features
 
@@ -9,6 +9,11 @@ A React application that provides a playground for exploring multi-modal AI capa
 - **Document/URL Summarization**: Upload documents (PDF, DOC) or provide URLs for content summarization
 
 ## Setup Instructions
+
+### Prerequisites
+
+1. **Google Cloud Project**: You need a Google Cloud project with Gemini API enabled
+2. **API Key**: Generate an API key from Google AI Studio (https://makersuite.google.com/app/apikey)
 
 ### Local Development
 
@@ -20,8 +25,7 @@ A React application that provides a playground for exploring multi-modal AI capa
 2. **Set up environment variables:**
    Create a `.env.local` file in the root directory:
    ```
-   GEMINI_ENDPOINT=your_gemini_api_endpoint
-   GEMINI_API_KEY=your_gemini_api_key
+   GEMINI_API_KEY=your_gemini_api_key_here
    ```
 
 3. **Run the development server:**
@@ -43,46 +47,51 @@ A React application that provides a playground for exploring multi-modal AI capa
 2. **Set environment variables in Vercel:**
    - Go to your Vercel project dashboard
    - Navigate to Settings > Environment Variables
-   - Add the following variables:
-     - `GEMINI_ENDPOINT`: Your Gemini API endpoint
-     - `GEMINI_API_KEY`: Your Gemini API key
+   - Add the following variable:
+     - `GEMINI_API_KEY`: Your Google Gemini API key
 
 3. **Redeploy after setting environment variables:**
    ```bash
    vercel --prod
    ```
 
+## Getting Your Gemini API Key
+
+1. **Visit Google AI Studio**: Go to https://makersuite.google.com/app/apikey
+2. **Sign in**: Use your Google account
+3. **Create API Key**: Click "Create API Key" and copy the generated key
+4. **Set Environment Variable**: Add this key to your Vercel environment variables
+
 ## API Configuration
 
-The application uses serverless functions in the `/api/gemini/` directory that forward requests to your Gemini API provider. Make sure to:
-
-1. Set the correct `GEMINI_ENDPOINT` pointing to your API provider
-2. Set the `GEMINI_API_KEY` for authentication
-3. Ensure your API provider accepts the payload format expected by the forward function
+The application uses Google's Gemini API through serverless functions. The API:
+- Accepts text, image, and document inputs
+- Returns AI-generated responses based on the task
+- Handles authentication via API key in the URL
 
 ## Troubleshooting
 
 ### Common Issues:
 
-1. **FUNCTION_INVOCATION_FAILED**: 
-   - Check that environment variables are set in Vercel
-   - Verify your API endpoint is accessible
-   - Check Vercel function logs for detailed error messages
+1. **401 UNAUTHENTICATED Error**: 
+   - Check that `GEMINI_API_KEY` is set correctly in Vercel
+   - Verify your API key is valid and not expired
+   - Ensure you have enabled the Gemini API in your Google Cloud project
 
-2. **Module Import Errors**:
+2. **FUNCTION_INVOCATION_FAILED**: 
+   - Check Vercel function logs for detailed error messages
+   - Verify environment variables are set correctly
+
+3. **Module Import Errors**:
    - The project uses ES modules (`"type": "module"` in package.json)
    - All API functions use ES module syntax
-
-3. **CORS Issues**:
-   - The API functions are designed to work with Vercel's serverless environment
-   - No additional CORS configuration needed for Vercel deployment
 
 ## Project Structure
 
 ```
 plivo/
 ├── api/gemini/          # Serverless API functions
-│   ├── _forward.js      # Generic API forwarding logic
+│   ├── _forward.js      # Gemini API integration
 │   ├── conversation.js  # Audio processing endpoint
 │   ├── image.js         # Image analysis endpoint
 │   └── summarize.js     # Document/URL summarization endpoint
@@ -99,4 +108,4 @@ plivo/
 - Vite
 - Tailwind CSS
 - Vercel Serverless Functions
-- Google Gemini AI (via API)
+- Google Gemini AI API
