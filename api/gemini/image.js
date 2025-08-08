@@ -1,7 +1,7 @@
 // api/gemini/image.js
-const forward = require("./_forward");
+import forward from "./_forward.js";
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   try {
     const body = req.body || (await parseJson(req));
     const instruction = `You are an image captioning assistant. Given an image provided as a base64 data URL in 'data', generate:

@@ -1,7 +1,7 @@
 // api/gemini/conversation.js
-const forward = require("./_forward");
+import forward from "./_forward.js";
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   try {
     const body = req.body || (await parseJson(req));
     // We expect: { fileName, mimeType, data }

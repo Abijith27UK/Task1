@@ -7,7 +7,8 @@ const forward = async ({ reqBody, taskHint }) => {
     if (!endpoint || !apiKey) {
       return { status: 500, body: { error: "Server config missing GEMINI_ENDPOINT/GEMINI_API_KEY" } };
     }
-  
+    console.log("KEY:", process.env.GEMINI_API_KEY);
+    console.log("ENDPOINT:", process.env.GEMINI_ENDPOINT);
     // Build a generic prompt payload that includes the data.
     // Many providers accept a JSON "input" or "instances" key, but shape differs.
     // We send a minimal generic payload and rely on you to set GEMINI_ENDPOINT to a compatible endpoint.
@@ -46,5 +47,5 @@ const forward = async ({ reqBody, taskHint }) => {
     return { status: 200, body: json };
   };
   
-  module.exports = forward;
+  export default forward;
   

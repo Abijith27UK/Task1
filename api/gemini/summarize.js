@@ -1,7 +1,7 @@
 // api/gemini/summarize.js
-const forward = require("./_forward");
+import forward from "./_forward.js";
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   try {
     const body = req.body || (await parseJson(req));
     const instruction = `You are an assistant that summarizes content. Input may include:
