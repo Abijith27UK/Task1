@@ -10,7 +10,22 @@ export default function LandingPage() {
         This is a minimal AI-powered chatbot built for the Plivo assignment.
         Click below to try it out!
       </p>
-      <button onClick={() => navigate("/task")}>Go to Task</button>
+
+      {/* Animated bordered button */}
+      <button
+        className="cta-button"
+        onClick={() => navigate("/task")}
+        aria-label="Go to Task"
+      >
+        <span className="cta-inner">Go to Task</span>
+      </button>
+
+      {/* Author credit kept visible but subtle */}
+      <div className="landing-credit">
+        <span>Created by</span>
+        <strong> Abijith U K</strong>
+        <span className="year">{new Date().getFullYear()}</span>
+      </div>
     </div>
   );
 }

@@ -140,3 +140,119 @@ header {
 .input-area button {
   padding: 8px 12px;
 }
+/* --- Landing page layout (keeps your existing .landing-container class) --- */
+.landing-container {
+  max-width: 720px;
+  margin: 56px auto;
+  padding: 28px;
+  color: var(--page-text, #eaeaea);
+}
+
+/* Headline & paragraph spacing */
+.landing-container h1 {
+  font-size: 2.4rem;
+  margin: 0 0 8px 0;
+  color: var(--page-heading, inherit);
+}
+
+.landing-container p {
+  margin: 0 0 18px 0;
+  color: var(--page-subtext, #bfc7cf);
+  line-height: 1.4;
+}
+
+/* --- Animated border CTA button --- */
+/* Outer button container shows the animated ring */
+.cta-button {
+  --ring-size: 3px;
+  display: inline-block;
+  padding: var(--ring-size);            /* ring thickness */
+  border-radius: 12px;
+  background: conic-gradient(
+    from 0deg,
+    #ff6ec4,
+    #7873f5,
+    #18c6ff,
+    #ffd166,
+    #ff6ec4
+  );
+  background-size: 300% 300%;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.12s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  outline: none;
+}
+
+/* Slow, continuous rotation-like movement for the ring */
+@keyframes ring-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.cta-button { animation: ring-move 4s linear infinite; }
+
+/* Inner content masks the center so only the thin ring is visible */
+.cta-inner {
+  display: inline-block;
+  border-radius: 9px;
+  padding: 10px 20px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  /* Use CSS vars so this works for both dark/light modes */
+  background: var(--button-bg, #101010);
+  color: var(--button-text, #ffffff);
+  min-width: 120px;
+  text-align: center;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset;
+}
+
+/* Hover/focus behavior */
+.cta-button:hover { transform: translateY(-2px); }
+.cta-button:active { transform: translateY(0); }
+.cta-button:focus { box-shadow: 0 0 0 4px rgba(100,110,255,0.12); }
+
+/* --- Author credit --- */
+.landing-credit {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--page-subtext, #bfc7cf);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Year pushed to the far right on wider screens */
+.landing-credit .year {
+  margin-left: auto;
+  color: var(--page-subtext, #bfc7cf);
+  font-size: 12px;
+}
+
+/* --- Light / Dark mode compatibility --- */
+/* If you already toggle .light-mode or .dark-mode on <body>, just set --button-bg/text there.
+   Example defaults you can add to your existing theme rules: */
+
+.light-mode {
+  --page-text: #213547;
+  --page-heading: #213547;
+  --page-subtext: #555;
+  --button-bg: #111827;   /* inner button dark */
+  --button-text: #ffffff;
+}
+
+.dark-mode {
+  --page-text: #e6eef8;
+  --page-heading: #e6eef8;
+  --page-subtext: #9aa6b2;
+  --button-bg: #0b1220;  /* inner button dark in dark-mode too */
+  --button-text: #ffffff;
+}
+
+/* Small responsive tweak */
+@media (max-width: 520px) {
+  .landing-container { padding: 18px; margin: 32px 12px; }
+  .cta-inner { padding: 10px 16px; min-width: 100px; }
+}
