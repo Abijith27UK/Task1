@@ -6,6 +6,16 @@
   --chat-user-text: #fff;
   --chat-bot-bg: #e5e5e5;
   --chat-bot-text: #000;
+  
+  /* Additional variables for Chatbot component */
+  --card-bg: #2a2a2a;
+  --result-bg: #3a3a3a;
+  --border-color: #555;
+  --input-bg: #2a2a2a;
+  --button-bg: #007bff;
+  --button-text: #fff;
+  --button-secondary-bg: #6c757d;
+  --text-muted: #aaa;
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -31,6 +41,16 @@ body {
   --text-color: #213547;
   --chat-bot-bg: #f0f0f0;
   --chat-bot-text: #000;
+  
+  /* Light mode variables for Chatbot component */
+  --card-bg: #ffffff;
+  --result-bg: #f5f5f5;
+  --border-color: #e0e0e0;
+  --input-bg: #ffffff;
+  --button-bg: #007bff;
+  --button-text: #fff;
+  --button-secondary-bg: #6c757d;
+  --text-muted: #666;
 }
 
 a {

@@ -104,13 +104,54 @@ export default function Chatbot() {
     }
   };
 
+  // Dynamic styles that respond to dark mode
+  const containerStyle = {
+    border: "1px solid rgba(128,128,128,0.25)",
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 12,
+    background: "var(--card-bg, #fff)",
+    color: "var(--text-color, #000)"
+  };
+
+  const resultContainerStyle = {
+    whiteSpace: "pre-wrap",
+    padding: 12,
+    borderRadius: 8,
+    background: "var(--result-bg, #f5f5f5)",
+    color: "var(--text-color, #000)",
+    border: "1px solid var(--border-color, #e0e0e0)"
+  };
+
+  const buttonStyle = {
+    padding: "8px 16px",
+    borderRadius: 8,
+    background: "var(--button-bg, #007bff)",
+    color: "var(--button-text, #fff)",
+    border: "none",
+    cursor: "pointer"
+  };
+
+  const inputStyle = {
+    padding: "8px 12px",
+    borderRadius: 6,
+    border: "1px solid var(--border-color, #ccc)",
+    background: "var(--input-bg, #fff)",
+    color: "var(--text-color, #000)",
+    flex: 1
+  };
+
   return (
     <div style={{ maxWidth: 900, margin: "24px auto", padding: 16 }}>
-      <h1 style={{ marginBottom: 12 }}>AI Playground — Multi-skill</h1>
+      <h1 style={{ marginBottom: 12, color: "var(--text-color, #000)" }}>AI Playground — Multi-skill</h1>
 
       <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 16 }}>
-        <label style={{ fontWeight: 600 }}>Select Skill</label>
-        <select value={skill} onChange={(e) => { setSkill(e.target.value); setResult(null); setError(""); setFile(null); setFilePreview(""); setUrlInput(""); }}>
+        <label style={{ fontWeight: 600, color: "var(--text-color, #000)" }}>Select Skill</label>
+        <select 
+          value={skill} 
+          onChange={(e) => { setSkill(e.target.value); setResult(null); setError(""); setFile(null); setFilePreview(""); setUrlInput(""); }}
+          style={inputStyle}
+        >
           <option value="conversation">Conversation Analysis</option>
           <option value="image">Image Analysis</option>
           <option value="document-url">Document / URL Summarization</option>
@@ -118,20 +159,20 @@ export default function Chatbot() {
       </div>
 
       {/* Dynamic input area */}
-      <div style={{ border: "1px solid rgba(128,128,128,0.25)", borderRadius: 10, padding: 12, marginBottom: 12, background: "var(--card-bg, #fff)" }}>
+      <div style={containerStyle}>
         {skill === "conversation" && (
           <>
             <p><strong>Conversation Analysis</strong> — Upload an audio file (wav/mp3). We'll transcribe, diarize (max 2 speakers) and summarize.</p>
-            <input type="file" accept="audio/*" onChange={handleFile} />
-            {file && <div style={{ marginTop: 8 }}>Selected: {file.name} ({Math.round(file.size/1024)} KB)</div>}
+            <input type="file" accept="audio/*" onChange={handleFile} style={inputStyle} />
+            {file && <div style={{ marginTop: 8, color: "var(--text-color, #000)" }}>Selected: {file.name} ({Math.round(file.size/1024)} KB)</div>}
           </>
         )}
 
         {skill === "image" && (
           <>
             <p><strong>Image Analysis</strong> — Upload an image. We'll generate a detailed description.</p>
-            <input type="file" accept="image/*" onChange={handleFile} />
-            {filePreview && <img src={filePreview} alt="preview" style={{ marginTop: 8, maxWidth: 320, borderRadius: 8, border: "1px solid #ddd" }} />}
+            <input type="file" accept="image/*" onChange={handleFile} style={inputStyle} />
+            {filePreview && <img src={filePreview} alt="preview" style={{ marginTop: 8, maxWidth: 320, borderRadius: 8, border: "1px solid var(--border-color, #ddd)" }} />}
           </>
         )}
 
@@ -139,19 +180,27 @@ export default function Chatbot() {
           <>
             <p><strong>Document / URL Summarization</strong> — Upload PDF/DOC or paste a URL.</p>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <input type="file" accept=".pdf,.doc,.docx" onChange={handleFile} />
-              <span style={{ color: "#666" }}> — OR — </span>
-              <input style={{ flex: 1 }} placeholder="https://example.com/article" value={urlInput} onChange={(e) => setUrlInput(e.target.value)} />
+              <input type="file" accept=".pdf,.doc,.docx" onChange={handleFile} style={inputStyle} />
+              <span style={{ color: "var(--text-muted, #666)" }}> — OR — </span>
+              <input 
+                style={inputStyle} 
+                placeholder="https://example.com/article" 
+                value={urlInput} 
+                onChange={(e) => setUrlInput(e.target.value)} 
+              />
             </div>
           </>
         )}
       </div>
 
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-        <button onClick={handleSubmit} disabled={loading} style={{ padding: "8px 16px", borderRadius: 8 }}>
+        <button onClick={handleSubmit} disabled={loading} style={buttonStyle}>
           {loading ? "Processing..." : "Run"}
         </button>
-        <button onClick={() => { setResult(null); setError(""); setFile(null); setFilePreview(""); setUrlInput(""); }} style={{ padding: "8px 12px", borderRadius: 8 }}>
+        <button 
+          onClick={() => { setResult(null); setError(""); setFile(null); setFilePreview(""); setUrlInput(""); }} 
+          style={{ ...buttonStyle, background: "var(--button-secondary-bg, #6c757d)" }}
+        >
           Reset
         </button>
       </div>
@@ -160,24 +209,24 @@ export default function Chatbot() {
 
       {/* Results */}
       {result && (
-        <div style={{ marginTop: 18, borderTop: "1px solid #eee", paddingTop: 16 }}>
-          <h3>Results</h3>
+        <div style={{ marginTop: 18, borderTop: "1px solid var(--border-color, #eee)", paddingTop: 16 }}>
+          <h3 style={{ color: "var(--text-color, #000)" }}>Results</h3>
 
           {skill === "conversation" && (
             <>
               <section style={{ marginBottom: 12 }}>
-                <h4>Transcript</h4>
-                <pre style={{ whiteSpace: "pre-wrap", background: "#fafafa", padding: 12, borderRadius: 8 }}>{result.transcript || result.text || "No transcript returned"}</pre>
+                <h4 style={{ color: "var(--text-color, #000)" }}>Transcript</h4>
+                <pre style={resultContainerStyle}>{result.transcript || result.text || "No transcript returned"}</pre>
               </section>
 
               <section style={{ marginBottom: 12 }}>
-                <h4>Diarization</h4>
-                <pre style={{ whiteSpace: "pre-wrap", background: "#fafafa", padding: 12, borderRadius: 8 }}>{result.diarization || "No diarization returned"}</pre>
+                <h4 style={{ color: "var(--text-color, #000)" }}>Diarization</h4>
+                <pre style={resultContainerStyle}>{result.diarization || "No diarization returned"}</pre>
               </section>
 
               <section style={{ marginBottom: 12 }}>
-                <h4>Summary</h4>
-                <div style={{ background: "#fafafa", padding: 12, borderRadius: 8 }}>{result.summary || "No summary returned"}</div>
+                <h4 style={{ color: "var(--text-color, #000)" }}>Summary</h4>
+                <div style={resultContainerStyle}>{result.summary || "No summary returned"}</div>
               </section>
             </>
           )}
@@ -185,12 +234,12 @@ export default function Chatbot() {
           {skill === "image" && (
             <>
               <section style={{ marginBottom: 12 }}>
-                <h4>Image</h4>
+                <h4 style={{ color: "var(--text-color, #000)" }}>Image</h4>
                 {filePreview && <img src={filePreview} alt="uploaded" style={{ maxWidth: 420, borderRadius: 8 }} />}
               </section>
               <section>
-                <h4>Caption / Description</h4>
-                <div style={{ background: "#fafafa", padding: 12, borderRadius: 8 }}>{result.caption || result.text || "No caption returned"}</div>
+                <h4 style={{ color: "var(--text-color, #000)" }}>Caption / Description</h4>
+                <div style={resultContainerStyle}>{result.caption || result.text || "No caption returned"}</div>
               </section>
             </>
           )}
@@ -198,8 +247,8 @@ export default function Chatbot() {
           {skill === "document-url" && (
             <>
               <section>
-                <h4>Summary</h4>
-                <div style={{ background: "#fafafa", padding: 12, borderRadius: 8 }}>{result.summary || result.text || "No summary returned"}</div>
+                <h4 style={{ color: "var(--text-color, #000)" }}>Summary</h4>
+                <div style={resultContainerStyle}>{result.summary || result.text || "No summary returned"}</div>
               </section>
             </>
           )}
