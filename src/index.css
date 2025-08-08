@@ -1,0 +1,122 @@
+@import "tailwindcss";
+:root {
+  --bg-color: #242424;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --chat-user-bg: #007bff;
+  --chat-user-text: #fff;
+  --chat-bot-bg: #e5e5e5;
+  --chat-bot-text: #000;
+
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-width: 320px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.light-mode {
+  --bg-color: #ffffff;
+  --text-color: #213547;
+  --chat-bot-bg: #f0f0f0;
+  --chat-bot-text: #000;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.landing-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: auto;
+  width: 100%;
+  padding: 1rem;
+}
+
+.chat-box {
+  background: white;
+  color: black;
+  height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.chat-bubble {
+  padding: 8px 12px;
+  margin: 5px 0;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+.chat-bubble.user {
+  background: var(--chat-user-bg);
+  color: var(--chat-user-text);
+  align-self: flex-end;
+}
+
+.chat-bubble.bot {
+  background: var(--chat-bot-bg);
+  color: var(--chat-bot-text);
+}
+
+.input-area {
+  display: flex;
+  margin-top: 10px;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 8px;
+}
+
+.input-area button {
+  padding: 8px 12px;
+}
