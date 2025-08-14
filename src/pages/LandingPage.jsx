@@ -5,7 +5,7 @@ export default function LandingPage() {
 
   return (
     <div className="landing-container">
-      <h1>AskMe Bot</h1>
+      <h1>Asking Bot</h1>
       <p>
         This is a minimal AI-powered chatbot built for the Plivo assignment.
         Click below to try it out!

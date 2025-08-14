@@ -3,11 +3,33 @@ import { useState, useEffect } from "react";
 export default function History() {
   const [history, setHistory] = useState([]);
 
+  // Utility function to ensure history is always limited to 10 items
+  const enforceHistoryLimit = (historyArray) => {
+    if (Array.isArray(historyArray) && historyArray.length > 10) {
+      return historyArray.slice(0, 10);
+    }
+    return historyArray;
+  };
+
   useEffect(() => {
     // Load history from localStorage on component mount
     const savedHistory = localStorage.getItem("aiPlaygroundHistory");
     if (savedHistory) {
-      setHistory(JSON.parse(savedHistory));
+      try {
+        const parsedHistory = JSON.parse(savedHistory);
+        const limitedHistory = enforceHistoryLimit(parsedHistory);
+        
+        // If we had to limit the history, save it back
+        if (limitedHistory.length !== parsedHistory.length) {
+          localStorage.setItem("aiPlaygroundHistory", JSON.stringify(limitedHistory));
+        }
+        
+        setHistory(limitedHistory);
+      } catch (error) {
+        console.error("Error parsing history:", error);
+        localStorage.removeItem("aiPlaygroundHistory");
+        setHistory([]);
+      }
     }
   }, []);
 
@@ -157,17 +179,23 @@ export default function History() {
     <div style={{ maxWidth: 1000, margin: "24px auto", padding: 16 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
         <h1 style={{ color: "var(--text-color, #000)", margin: 0 }}>AI Playground History</h1>
-        {history.length > 0 && (
-          <button onClick={clearHistory} style={{ ...buttonStyle, background: "var(--button-secondary-bg, #dc3545)" }}>
-            Clear History
-          </button>
-        )}
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ color: "var(--text-muted, #666)", fontSize: "14px" }}>
+            Showing {history.length} of 10 most recent interactions
+          </span>
+          {history.length > 0 && (
+            <button onClick={clearHistory} style={{ ...buttonStyle, background: "var(--button-secondary-bg, #dc3545)", marginBottom: 0 }}>
+              Clear History
+            </button>
+          )}
+        </div>
       </div>
 
       {history.length === 0 ? (
         <div style={{ textAlign: "center", padding: "40px", color: "var(--text-muted, #666)" }}>
           <h3>No History Yet</h3>
           <p>Your AI interactions will appear here once you start using the playground.</p>
+          <p style={{ fontSize: "14px", marginTop: 8 }}>History is automatically limited to the 10 most recent interactions.</p>
         </div>
       ) : (
         <div>
@@ -193,6 +221,15 @@ export default function History() {
                     {formatDate(item.timestamp)}
                   </span>
                 </div>
+                <span style={{ 
+                  color: "var(--text-muted, #666)", 
+                  fontSize: "12px",
+                  background: "var(--result-bg, #f5f5f5)",
+                  padding: "2px 6px",
+                  borderRadius: 4
+                }}>
+                  #{history.length - index}
+                </span>
               </div>
 
               <div style={{ marginBottom: 16 }}>
